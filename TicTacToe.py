@@ -1,12 +1,11 @@
 from os import system, name
-#from termcolor import colored
+from termcolor import colored
 import random
 
 
 def print_menu():
     system('clear')
-    #print(colored("                        TICTACTOE", "red"))
-    print(  "                        TICTACTOE")
+    print(colored("                        TICTACTOE", "red"))
     print("")
     print("                 Wybierz tryb rozgrywki poprzez wpisanie 1,2 lub 3 i zatwierdzenie Enterem:")
     print("                 1. Player vs. Player")

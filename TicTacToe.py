@@ -34,48 +34,35 @@ def print_board():
 # ---------------------------------------------------------------------------------------------------
 
 
-def if_Won():
-    # winners = [
-    #     (0, 1, 2),
-    #     (3, 4, 5),
-    #     (6, 7, 8),
-    #     (0, 3, 6),
-    #     (1, 4, 7),
-    #     (2, 5, 8),
-    #     (0, 4, 8),
-    #     (2, 4, 6),
-    # ]
-
-    if(pos[0] == pos[1] and pos[1] == pos[2]):
-        return True
-    elif(pos[3] == pos[4] and pos[4] == pos[5]):
-        return True
-    elif(pos[6] == pos[7] and pos[7] == pos[8]):
-        return True
-    elif(pos[0] == pos[3] and pos[3] == pos[6]):
-        return True
-    elif(pos[1] == pos[4] and pos[4] == pos[7]):
-        return True
-    elif(pos[2] == pos[5] and pos[5] == pos[8]):
-        return True
-    elif(pos[0] == pos[4] and pos[4] == pos[8]):
-        return True
-    elif(pos[2] == pos[4] and pos[4] == pos[6]):
-        return True
-
+def if_Won(player):
+    winners = [
+        (0, 1, 2),
+        (3, 4, 5),
+        (6, 7, 8),
+        (0, 3, 6),
+        (1, 4, 7),
+        (2, 5, 8),
+        (0, 4, 8),
+        (2, 4, 6),
+    ]
+    for i in winners:
+        if pos[i[0]] == pos[i[1]] == pos[i[2]] == player:
+            return True
     return False
 # ---------------------------------------------------------------------
 
 
 def if_Draw():
     for i in range(9):
-        if (pos[i] != 'X' and pos[i] != 'O'):
+        if (pos[i] != X and pos[i] != O):
             return False
     return True
 
 def repair_board():
     for i in range(9):
         pos[i] = str(i+1)
+X = 'X'
+O = 'O'
 
 If_Play = True
 while (If_Play == True):
@@ -85,7 +72,7 @@ while (If_Play == True):
     Input_Done = False
     Choice = print_menu()
     print_board()
-    while(not if_Won()):
+    while(not if_Won(X) and not if_Won(O)):
         while (Input_Done == False):
             if(Choice == '1' or Choice == '2'):
                 try:
@@ -100,7 +87,7 @@ while (If_Play == True):
             else:
                 while(random_correct_X == False):
                     tempX = random.randint(0, 9)
-                    if(pos[tempX-1] != 'X' and pos[tempX-1] != 'O'):
+                    if(pos[tempX-1] != X and pos[tempX-1] != O):
                         random_correct_X = True
                 random_correct_X = False
                 Pole_Zajete_X = True
@@ -109,10 +96,10 @@ while (If_Play == True):
 
         while (Pole_Zajete_X == True):
             Pole_Zajete_X = False
-            if (pos[tempX-1] != "X" and pos[tempX-1] != "O"):
-                pos[tempX-1] = "X"
+            if (pos[tempX-1] != X and pos[tempX-1] != O):
+                pos[tempX-1] = X
                 print_board()
-                if(if_Won()):
+                if(if_Won(X)):
                     print("WYGRAL X !!!")
                     Pole_Zajete_X = False
                     break
@@ -127,11 +114,11 @@ while (If_Play == True):
                     except:
                         print("Robisz cos nie tak, sprobuj jeszcze raz!")
                 Input_Done = False
-        if(if_Draw() and not if_Won()):
+        if(if_Draw() and not if_Won(X)):
             print("Brak mozliwosci dalszych ruchow, REMIS")
             Pole_Zajete_X = False
             break
-        if(not if_Won() and not if_Draw()):
+        if(not if_Won(X) and not if_Draw()):
             while(Input_Done == False):
                 if(Choice == '1' or Choice == '3'):
                     try:
@@ -146,7 +133,7 @@ while (If_Play == True):
                 else:
                     while(random_correct_O == False):
                         tempY = random.randint(0, 9)
-                        if(pos[tempY-1] != 'X' and pos[tempY-1] != 'O'):
+                        if(pos[tempY-1] != X and pos[tempY-1] != O):
                             random_correct_O = True
                     random_correct_O = False
                     Pole_Zajete_O = True
@@ -156,10 +143,10 @@ while (If_Play == True):
 
         while (Pole_Zajete_O == True):
             Pole_Zajete_O = False
-            if (pos[tempY-1] != "X" and pos[tempY-1] != "O"):
-                pos[tempY-1] = "O"
+            if (pos[tempY-1] != X and pos[tempY-1] != O):
+                pos[tempY-1] = O
                 print_board()
-                if(if_Won()):
+                if(if_Won(O)):
                     print("WYGRAL O !!!")
                     Pole_Zajete_O = False
                     break

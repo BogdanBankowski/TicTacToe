@@ -5,12 +5,13 @@ import random
 
 def print_menu():
     system('clear')
-    print(colored("                        TICTACTOE", "red"))
-    print("")
-    print("                 Wybierz tryb rozgrywki poprzez wpisanie 1,2 lub 3 i zatwierdzenie Enterem:")
-    print("                 1. Player vs. Player")
-    print("                 2. Player vs. CPU")
-    print("                 3. CPU    vs. Player")
+    print(colored("TICTACTOE".center(100), "red"))
+    print()
+    print("Wybierz tryb rozgrywki poprzez wpisanie 1,2 lub 3 i zatwierdzenie Enterem:".center(100))
+    print()
+    print("1. Player vs. Player".center(100))
+    print("2. Player vs. CPU   ".center(100))
+    print("3. CPU    vs. Player".center(100))
     Input_Done = False
     while (Input_Done == False):
         Choice = input()
@@ -18,9 +19,9 @@ def print_menu():
             Input_Done = True
         else:
             print("Brak takiej opcji")
-    Input_Done = False
     return Choice
 
+# ---------------------------------------------------------------------------------------------------
 
 def print_board():
     system('clear')
@@ -72,25 +73,18 @@ def if_Draw():
             return False
     return True
 
-
-def set_board():
-    for i in range(9):
-        pos.append(str(i+1))
-
-
 def repair_board():
     for i in range(9):
         pos[i] = str(i+1)
 
-pos = []
-random_correct_X = False
-random_correct_O = False
-Input_Done = False
 If_Play = True
-set_board()
-Choice = print_menu()
-print_board()
 while (If_Play == True):
+    pos = ['1','2','3','4','5','6','7','8','9']
+    random_correct_X = False
+    random_correct_O = False
+    Input_Done = False
+    Choice = print_menu()
+    print_board()
     while(not if_Won()):
         while (Input_Done == False):
 
@@ -174,10 +168,8 @@ while (If_Play == True):
                     except:
                         print("Robisz cos nie tak, sprobuj jeszcze raz!")
                 Input_Done = False
-    If_play = False
     if (input("Jesli chcesz grac dalej wpisz 'tak' i wcisnij enter, aby zakonczyc cokolwiek innego:") == 'tak'):
-        If_play = True
         repair_board()
         print_board()
     else:
-        break
+        If_Play=False

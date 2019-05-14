@@ -1,5 +1,5 @@
 from os import system, name
-from termcolor import colored
+#from termcolor import colored
 import random
 
 

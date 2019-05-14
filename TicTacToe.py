@@ -1,5 +1,5 @@
 from os import system, name
-#from termcolor import colored
+from termcolor import colored
 import random
 
 
@@ -87,12 +87,14 @@ while (If_Play == True):
     print_board()
     while(not if_Won()):
         while (Input_Done == False):
-
             if(Choice == '1' or Choice == '2'):
                 try:
                     tempX = int(input("Wybierz pole(X):"))
-                    Pole_Zajete_X = True
-                    Input_Done = True
+                    if tempX>0 and tempX<10:
+                        Pole_Zajete_X = True
+                        Input_Done = True
+                    else:
+                        print("Wybierz pole z mozliwego zakresu")
                 except:
                     print("Robisz cos nie tak, sprobuj jeszcze raz!")
             else:
@@ -125,7 +127,7 @@ while (If_Play == True):
                     except:
                         print("Robisz cos nie tak, sprobuj jeszcze raz!")
                 Input_Done = False
-        if(if_Draw()):
+        if(if_Draw() and not if_Won()):
             print("Brak mozliwosci dalszych ruchow, REMIS")
             Pole_Zajete_X = False
             break
@@ -134,8 +136,11 @@ while (If_Play == True):
                 if(Choice == '1' or Choice == '3'):
                     try:
                         tempY = int(input("Wybierz pole(O):"))
-                        Pole_Zajete_O = True
-                        Input_Done = True
+                        if tempY > 0 and tempY < 10:
+                            Pole_Zajete_O = True
+                            Input_Done = True
+                        else:
+                            print("Wybierz pole z mozliwego zakresu")
                     except:
                         print("Robisz cos nie tak, sprobuj jeszcze raz!")
                 else:
@@ -145,7 +150,7 @@ while (If_Play == True):
                             random_correct_O = True
                     random_correct_O = False
                     Pole_Zajete_O = True
-                Input_Done = True
+                    Input_Done = True
 
             Input_Done = False
 

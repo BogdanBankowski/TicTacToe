@@ -27,12 +27,12 @@ def print_menu():
 
 def print_board():
     system('clear')
-    print("                                  _" +
-          pos[0]+"_|"+"_"+pos[1]+"_|"+"_"+pos[2]+"_")
-    print("                                  _" +
-          pos[3]+"_|"+"_"+pos[4]+"_|"+"_"+pos[5]+"_")
-    print("                                  _" +
-          pos[6]+"_|"+"_"+pos[7]+"_|"+"_"+pos[8]+"_")
+    print("                                  _" ,
+          pos[0],"_|","_",pos[1],"_|","_",pos[2],"_")
+    print("                                  _" ,
+          pos[3],"_|","_",pos[4],"_|","_",pos[5],"_")
+    print("                                  _" ,
+          pos[6],"_|","_",pos[7],"_|","_",pos[8],"_")
 # ---------------------------------------------------------------------------------------------------
 
 
@@ -52,6 +52,25 @@ def if_Won(player):
             return True
     return False
 # ---------------------------------------------------------------------
+def make_move (player):
+    for i in range (9):
+        if pos[i]!=X and pos[i]!=O:
+            pos[i] = player
+            if if_Won(player):
+                pos[i]=i+1
+                return i+1
+            else:
+                pos[i]=i+1
+                continue
+    while True:
+        random_move=random.randint(1,9)
+        print(random_move)
+        if pos[random_move-1] == X or pos[random_move-1] == O:
+            continue
+        else:
+            return random_move
+
+            
 
 
 def if_Draw():
@@ -87,10 +106,7 @@ while (If_Play == True):
                 except:
                     print("Robisz cos nie tak, sprobuj jeszcze raz!")
             else:
-                while(random_correct_X == False):
-                    tempX = random.randint(0, 9)
-                    if(pos[tempX-1] != X and pos[tempX-1] != O):
-                        random_correct_X = True
+                tempX = make_move(X)
                 random_correct_X = False
                 Pole_Zajete_X = True
                 Input_Done = True
@@ -133,10 +149,7 @@ while (If_Play == True):
                     except:
                         print("Robisz cos nie tak, sprobuj jeszcze raz!")
                 else:
-                    while(random_correct_O == False):
-                        tempY = random.randint(0, 9)
-                        if(pos[tempY-1] != X and pos[tempY-1] != O):
-                            random_correct_O = True
+                    tempY=make_move(O)
                     random_correct_O = False
                     Pole_Zajete_O = True
                     Input_Done = True

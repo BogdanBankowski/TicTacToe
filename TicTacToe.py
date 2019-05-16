@@ -24,6 +24,8 @@ def print_menu():
 # ---------------------------------------------------------------------------------------------------
 
 def print_board():
+    global turn 
+    turn +=1
     system('clear')
     print("                                  _" ,
           pos[0],"_|","_",pos[1],"_|","_",pos[2],"_")
@@ -73,26 +75,51 @@ def make_move (player):
                 return i+1
             else:
                 pos[i] = i+1
-    
+    #srodek wolny
     if pos[4] != X and pos[4] != O:
         return 5
-    if (pos[4] == X or pos[4] == O) and (pos[0] != X and pos[0]!=O and pos[2]!=X and pos[2]!=O and pos[6]!=X and pos[6]!=O and pos[8]!=X and pos[8]!=O):
-        return random.choice([1,3,7,9])
-    #srodek i ukos vs ukos
-    if pos[4] == player2 and pos[0] == player2 and pos[8] == player:
-        return random.choice([3,7])
-    if pos[4] == player2 and pos[2] == player2 and pos[6] == player:
-        return random.choice([1,9])
-    if pos[4] == player2 and pos[8] == player2 and pos[0] == player:
-        return random.choice([3,7])
-    if pos[4] == player2 and pos[6] == player2 and pos[2] == player:
-        return random.choice([1,9])
     
-    #ukos i ukos vs srodek
-    if pos[4]==player and pos[0] == player2 and pos[8] == player2:
-        return random.choice([2,4,6,8])
-    if pos[4]==player and pos[2] == player2 and pos[6] == player2:
-        return random.choice([2,4,6,8])
+    #srodek zajety 4 rogi wolne
+    if (pos[4] == X or pos[4] == O) and (pos[0] != X and pos[0]!=O and pos[2]!=X and pos[2]!=O and pos[6]!=X and pos[6]!=O and pos[8]!=X and pos[8]!=O) and turn == 2:
+        return random.choice([1,3,7,9])
+    
+    if Choice == '2' and turn == 4:
+        #srodek i ukos vs ukos - not loosing
+        if pos[4] == player2 and pos[0] == player2 and pos[8] == player:
+            return random.choice([3,7])
+        if pos[4] == player2 and pos[2] == player2 and pos[6] == player:
+            return random.choice([1,9])
+        if pos[4] == player2 and pos[8] == player2 and pos[0] == player:
+            return random.choice([3,7])
+        if pos[4] == player2 and pos[6] == player2 and pos[2] == player:
+            return random.choice([1,9])
+        
+        #ukos i ukos vs srodek - not loosing
+        if pos[4]==player and pos[0] == player2 and pos[8] == player2:
+            return random.choice([2,4,6,8])
+        if pos[4]==player and pos[2] == player2 and pos[6] == player2:
+            return random.choice([2,4,6,8])
+    if Choice == '3' and turn == 3:
+        #winning by center - good def , second move  
+        if pos[4] == player and pos[0] == player2:
+            return 9
+        if pos[4] == player and pos[2] == player2:
+            return 7
+        if pos[4] == player and pos[6] == player2:
+            return 3
+        if pos[4] == player and pos[8] == player2:
+            return 1
+        #winning by center - bad def, second move
+    if Choice == '3' and  turn == 3:
+        if pos[4] == player and pos[1] == player2:
+            return 9
+        if pos[4] == player and pos[3] == player2:
+            return 3
+        if pos[4] == player and pos[5] == player2:
+            return 1
+        if pos[4] == player and pos[7] == player2:
+            return 1
+    
 
     while True:
         random_move=random.randint(1,9)
@@ -108,11 +135,13 @@ def if_Draw():
     return True
 
 def repair_board():
+    global turn
+    turn = 0
     for i in range(9):
         pos[i] = str(i+1)
 X = 'X'
 O = 'O'
-
+turn = 0
 If_Play = True
 while (If_Play == True):
     pos = ['1','2','3','4','5','6','7','8','9']
@@ -174,7 +203,7 @@ while (If_Play == True):
                             Input_Done = True
                         else:
                             print("Wybierz pole z mozliwego zakresu")
-                    except:
+                    except Exception:
                         print("Robisz cos nie tak, sprobuj jeszcze raz!")
                 else:
                     tempY=make_move(O)
@@ -200,11 +229,10 @@ while (If_Play == True):
                         tempY = int(input("Wprowadz jeszcze raz O:"))
                         Pole_Zajete_O = True
                         Input_Done = True
-                    except:
+                    except Exception:
                         print("Robisz cos nie tak, sprobuj jeszcze raz!")
                 Input_Done = False
     if (input("Jesli chcesz grac dalej wpisz 'tak' i wcisnij enter, aby zakonczyc cokolwiek innego:") == 'tak'):
         repair_board()
-        print_board()
     else:
         If_Play=False

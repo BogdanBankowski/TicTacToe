@@ -51,6 +51,12 @@ def if_Won(player):
     return False
 # ---------------------------------------------------------------------
 def make_move (player):
+    if player == X:
+        player2 = O
+    else:
+        player2 = X
+
+
     for i in range (9):
         if pos[i]!=X and pos[i]!=O:
             pos[i] = player
@@ -59,17 +65,41 @@ def make_move (player):
                 return i+1
             else:
                 pos[i]=i+1
-                continue
+    for i in range (9):
+        if pos[i] != X and pos[i] != O:
+            pos[i] = player2
+            if if_Won(player2):
+                pos[i]=i+1
+                return i+1
+            else:
+                pos[i] = i+1
+    
+    if pos[4] != X and pos[4] != O:
+        return 5
+    if (pos[4] == X or pos[4] == O) and (pos[0] != X and pos[0]!=O and pos[2]!=X and pos[2]!=O and pos[6]!=X and pos[6]!=O and pos[8]!=X and pos[8]!=O):
+        return random.choice([1,3,7,9])
+    #srodek i ukos vs ukos
+    if pos[4] == player2 and pos[0] == player2 and pos[8] == player:
+        return random.choice([3,7])
+    if pos[4] == player2 and pos[2] == player2 and pos[6] == player:
+        return random.choice([1,9])
+    if pos[4] == player2 and pos[8] == player2 and pos[0] == player:
+        return random.choice([3,7])
+    if pos[4] == player2 and pos[6] == player2 and pos[2] == player:
+        return random.choice([1,9])
+    
+    #ukos i ukos vs srodek
+    if pos[4]==player and pos[0] == player2 and pos[8] == player2:
+        return random.choice([2,4,6,8])
+    if pos[4]==player and pos[2] == player2 and pos[6] == player2:
+        return random.choice([2,4,6,8])
+
     while True:
         random_move=random.randint(1,9)
-        print(random_move)
         if pos[random_move-1] == X or pos[random_move-1] == O:
             continue
         else:
             return random_move
-
-            
-
 
 def if_Draw():
     for i in range(9):

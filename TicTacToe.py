@@ -82,7 +82,10 @@ def make_move (player):
         return 5
     
     #srodek zajety 4 rogi wolne
-    if (pos[4] == X or pos[4] == O) and (pos[0] != X and pos[0]!=O and pos[2]!=X and pos[2]!=O and pos[6]!=X and pos[6]!=O and pos[8]!=X and pos[8]!=O) and turn == 2:
+    if (pos[4] == X or pos[4] == O) 
+        and ( pos[0] != X and pos[0]!=O and 
+        pos[2]!=X and pos[2]!=O and pos[6]!=X 
+        and pos[6]!=O and pos[8]!=X and pos[8]!=O) and turn == 2:
         return random.choice([1,3,7,9])
     
     if Choice == '2' and turn == 4:

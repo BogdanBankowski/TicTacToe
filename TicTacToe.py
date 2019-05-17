@@ -15,7 +15,7 @@ def print_menu():
     print("3. CPU    vs. Player".center(100))
 
     Input_Done = False
-    while (Input_Done == False):
+    while not Input_Done:
         Choice = input()
         if (Choice == '1' or Choice == '2' or Choice == '3'):
             Input_Done = True
@@ -30,16 +30,16 @@ def print_board():
     turn +=1
     system('clear')
     print("                                  _" ,
-          pos[0],"_|","_",pos[1],"_|","_",pos[2],"_")
+          board_state[0],"_|","_",board_state[1],"_|","_",board_state[2],"_")
     print("                                  _" ,
-          pos[3],"_|","_",pos[4],"_|","_",pos[5],"_")
+          board_state[3],"_|","_",board_state[4],"_|","_",board_state[5],"_")
     print("                                  _" ,
-          pos[6],"_|","_",pos[7],"_|","_",pos[8],"_")
+          board_state[6],"_|","_",board_state[7],"_|","_",board_state[8],"_")
 # ---------------------------------------------------------------------------------------------------
 
 
 def if_Won(player):
-    winners = [
+    winning_combinations = [
         (0, 1, 2),
         (3, 4, 5),
         (6, 7, 8),
@@ -49,8 +49,8 @@ def if_Won(player):
         (0, 4, 8),
         (2, 4, 6),
     ]
-    for i in winners:
-        if pos[i[0]] == pos[i[1]] == pos[i[2]] == player:
+    for i in winning_combinations:
+        if board_state[i[0]] == board_state[i[1]] == board_state[i[2]] == player:
             return True
     return False
 # ---------------------------------------------------------------------
@@ -61,69 +61,66 @@ def make_move (player):
         player2 = X
 
 
-    for i in range (9):
-        if pos[i]!=X and pos[i]!=O:
-            pos[i] = player
+    for i in range(9):
+        if board_state[i]!=X and board_state[i]!=O:
+            board_state[i] = player
             if if_Won(player):
-                pos[i]=i+1
+                board_state[i]=i+1
                 return i+1
             else:
-                pos[i]=i+1
-    for i in range (9):
-        if pos[i] != X and pos[i] != O:
-            pos[i] = player2
+                board_state[i]=i+1
+    for i in range(9):
+        if board_state[i] != X and board_state[i] != O:
+            board_state[i] = player2
             if if_Won(player2):
-                pos[i]=i+1
+                board_state[i]=i+1
                 return i+1
             else:
-                pos[i] = i+1
+                board_state[i] = i+1
     #srodek wolny
-    if pos[4] != X and pos[4] != O and not (strategy == 'corner' and turn == 1 and Choice == '3'):
+    if board_state[4] != X and board_state[4] != O and not (strategy == 'corner' and turn == 1 and Choice == '3'):
         return 5
     
     #srodek zajety 4 rogi wolne
-    if (pos[4] == X or pos[4] == O) 
-        and ( pos[0] != X and pos[0]!=O and 
-        pos[2]!=X and pos[2]!=O and pos[6]!=X 
-        and pos[6]!=O and pos[8]!=X and pos[8]!=O) and turn == 2:
+    if (board_state[4] == X or board_state[4] == O) and ( board_state[0] != X and board_state[0]!=O and board_state[2]!=X and board_state[2]!=O and board_state[6]!=X and board_state[6]!=O and board_state[8]!=X and board_state[8]!=O) and turn == 2:
         return random.choice([1,3,7,9])
     
     if Choice == '2' and turn == 4:
         #srodek i ukos vs ukos - not loosing
-        if pos[4] == player2 and pos[0] == player2 and pos[8] == player:
+        if board_state[4] == player2 and board_state[0] == player2 and board_state[8] == player:
             return random.choice([3,7])
-        if pos[4] == player2 and pos[2] == player2 and pos[6] == player:
+        if board_state[4] == player2 and board_state[2] == player2 and board_state[6] == player:
             return random.choice([1,9])
-        if pos[4] == player2 and pos[8] == player2 and pos[0] == player:
+        if board_state[4] == player2 and board_state[8] == player2 and board_state[0] == player:
             return random.choice([3,7])
-        if pos[4] == player2 and pos[6] == player2 and pos[2] == player:
+        if board_state[4] == player2 and board_state[6] == player2 and board_state[2] == player:
             return random.choice([1,9])
         
         #ukos i ukos vs srodek - not loosing
-        if pos[4]==player and pos[0] == player2 and pos[8] == player2:
+        if board_state[4]==player and board_state[0] == player2 and board_state[8] == player2:
             return random.choice([2,4,6,8])
-        if pos[4]==player and pos[2] == player2 and pos[6] == player2:
+        if board_state[4]==player and board_state[2] == player2 and board_state[6] == player2:
             return random.choice([2,4,6,8])
     if Choice == '3' and turn == 3 and strategy == 'center':
         #winning by center - good def , second move  
-        if pos[4] == player and pos[0] == player2:
+        if board_state[4] == player and board_state[0] == player2:
             return 9
-        if pos[4] == player and pos[2] == player2:
+        if board_state[4] == player and board_state[2] == player2:
             return 7
-        if pos[4] == player and pos[6] == player2:
+        if board_state[4] == player and board_state[6] == player2:
             return 3
-        if pos[4] == player and pos[8] == player2:
+        if board_state[4] == player and board_state[8] == player2:
             return 1
     
         #winning by center - bad def, second move
     if Choice == '3' and  turn == 3 and strategy == 'center':
-        if pos[4] == player and pos[1] == player2:
+        if board_state[4] == player and board_state[1] == player2:
             return 9
-        if pos[4] == player and pos[3] == player2:
+        if board_state[4] == player and board_state[3] == player2:
             return 3
-        if pos[4] == player and pos[5] == player2:
+        if board_state[4] == player and board_state[5] == player2:
             return 1
-        if pos[4] == player and pos[7] == player2:
+        if board_state[4] == player and board_state[7] == player2:
             return 1
 
         #winning by corners, first move
@@ -132,44 +129,44 @@ def make_move (player):
     
         #winning by corners, second move against center
     if Choice == '3' and turn == 3:
-        if pos[4] == player2 and pos[0] == player:
+        if board_state[4] == player2 and board_state[0] == player:
             return 9
-        if pos[4] == player2 and pos[2] == player:
+        if board_state[4] == player2 and board_state[2] == player:
             return 7
-        if pos[4] == player2 and pos[6] == player:
+        if board_state[4] == player2 and board_state[6] == player:
             return 3
-        if pos[4] == player2 and pos[8] == player:
+        if board_state[4] == player2 and board_state[8] == player:
             return 1
         
         #extremly stupid oponent
     if turn == 5:
-        if pos[4] == player and pos [8] == player and pos[5] == player2:
+        if board_state[4] == player and board_state [8] == player and board_state[5] == player2:
             return 8
-        if pos[4] == player and pos [8] == player and pos[7] == player2:
+        if board_state[4] == player and board_state [8] == player and board_state[7] == player2:
             return 6
-        if pos[4] == player and pos [6] == player and pos[3] == player2:
+        if board_state[4] == player and board_state [6] == player and board_state[3] == player2:
             return 8
-        if pos[4] == player and pos [6] == player and pos[7] == player2:
+        if board_state[4] == player and board_state [6] == player and board_state[7] == player2:
             return 4
-        if pos[4] == player and pos [0] == player and pos[3] == player2:
+        if board_state[4] == player and board_state [0] == player and board_state[3] == player2:
             return 2
-        if pos[4] == player and pos [0] == player and pos[1] == player2:
+        if board_state[4] == player and board_state [0] == player and board_state[1] == player2:
             return 4
-        if pos[4] == player and pos [2] == player and pos[1] == player2:
+        if board_state[4] == player and board_state [2] == player and board_state[1] == player2:
             return 6
-        if pos[4] == player and pos [2] == player and pos[5] == player2:
+        if board_state[4] == player and board_state [2] == player and board_state[5] == player2:
             return 2
 
     while True:
         random_move=random.randint(1,9)
-        if pos[random_move-1] == X or pos[random_move-1] == O:
+        if board_state[random_move-1] == X or board_state[random_move-1] == O:
             continue
         else:
             return random_move
 
 def if_Draw():
     for i in range(9):
-        if (pos[i] != X and pos[i] != O):
+        if (board_state[i] != X and board_state[i] != O):
             return False
     return True
 
@@ -182,14 +179,15 @@ def repair_board():
     else:
         strategy = 'center'
     for i in range(9):
-        pos[i] = str(i+1)
+        board_state[i] = str(i+1)
 X = 'X'
 O = 'O'
 turn = 0
 If_Play = True
 strategy = 'center'
 while (If_Play == True):
-    pos = ['1','2','3','4','5','6','7','8','9']
+    board_state = ['1','2','3','4','5','6','7','8','9']
+    board_size = len(board_state)
     random_correct_X = False
     random_correct_O = False
     Input_Done = False
@@ -216,8 +214,8 @@ while (If_Play == True):
 
         while (Pole_Zajete_X == True):
             Pole_Zajete_X = False
-            if (pos[tempX-1] != X and pos[tempX-1] != O):
-                pos[tempX-1] = X
+            if (board_state[tempX-1] != X and board_state[tempX-1] != O):
+                board_state[tempX-1] = X
                 print_board()
                 if(if_Won(X)):
                     print("WYGRAL X !!!")
@@ -243,13 +241,14 @@ while (If_Play == True):
                 if(Choice == '1' or Choice == '3'):
                     try:
                         tempY = int(input("Wybierz pole(O):"))
-                        if tempY > 0 and tempY < 10:
-                            Pole_Zajete_O = True
-                            Input_Done = True
-                        else:
-                            print("Wybierz pole z mozliwego zakresu")
                     except Exception:
                         print("Robisz cos nie tak, sprobuj jeszcze raz!")
+                        continue
+                    if tempY > 0 and tempY < 10:
+                        Pole_Zajete_O = True
+                        Input_Done = True
+                    else:
+                        print("Wybierz pole z mozliwego zakresu")
                 else:
                     tempY=make_move(O)
                     random_correct_O = False
@@ -260,8 +259,8 @@ while (If_Play == True):
 
         while (Pole_Zajete_O == True):
             Pole_Zajete_O = False
-            if (pos[tempY-1] != X and pos[tempY-1] != O):
-                pos[tempY-1] = O
+            if (board_state[tempY-1] != X and board_state[tempY-1] != O):
+                board_state[tempY-1] = O
                 print_board()
                 if(if_Won(O)):
                     print("WYGRAL O !!!")
